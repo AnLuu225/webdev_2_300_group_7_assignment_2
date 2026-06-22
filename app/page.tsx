@@ -15,8 +15,6 @@
 import { useState } from "react";
 
 import studentsData from "../_data/students.json";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import StudentList from "../components/StudentList";
 import AddStudentForm from "../components/AddStudentForm";
 
