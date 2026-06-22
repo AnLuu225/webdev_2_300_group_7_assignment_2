@@ -27,22 +27,17 @@ export default function Home() {
   function addStudent(newStudent: any) {
     setStudents([...students, newStudent]);
   }
+  return(
+   <main>
+      <div className="flex flex-wrap w-full h-28 bg-gray-100 items-center p-4 mb-5">
+        <h2 className="w-full text-5xl font-bold">Student List</h2>
+        <h5 className="w-full text-lg italic text-gray-700">
+          Student portal for New Generation High School
+        </h5>
+      </div>
 
-  return (
-    <>
-      <Navbar />
-
-      <main>
-        <div className="flex flex-wrap w-full h-28 bg-gray-100 items-center p-4 mb-5">
-          <h2 className="w-full text-5xl font-bold">Student List</h2>
-          <h5 className="w-full text-lg italic text-gray-700"> Student portal for New Generation High School</h5>
-        </div>
-        <StudentList students={students} />
-        <AddStudentForm addStudent={addStudent} />
-
-      </main>
-
-      <Footer />
-    </>
+      <StudentList students={students} />
+      <AddStudentForm addStudent={addStudent} />
+    </main>
   );
 }
