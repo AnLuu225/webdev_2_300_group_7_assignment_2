@@ -2,26 +2,52 @@
 
 import { useState } from "react";
 
-export default function AddStudentForm({ addStudent }) {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [dob, setDob] = useState("");
-  const [grade, setGrade] = useState("");
+type Student = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  dob: string;
+  grade: number;
+};
 
-  function handleSubmit(event) {
+type AddStudentFormProps = {
+  addStudent: (student: Student) => void;
+};
+
+export default function AddStudentForm({
+  addStudent,
+}: AddStudentFormProps) {
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [dob, setDob] = useState<string>("");
+  const [grade, setGrade] = useState<string>("");
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (!firstName.trim() || !lastName.trim() || !dob || !grade.trim()) {
+    if (
+      !firstName.trim() ||
+      !lastName.trim() ||
+      !dob ||
+      !grade.trim()
+    ) {
       alert("Please complete all fields.");
       return;
     }
 
-    const newStudent = {
+    const gradeNumber = Number(grade);
+
+    if (isNaN(gradeNumber) || gradeNumber < 1 || gradeNumber > 12) {
+      alert("Grade must be between 1 and 12.");
+      return;
+    }
+
+    const newStudent: Student = {
       id: Date.now(),
       firstName,
       lastName,
       dob,
-      grade,
+      grade: gradeNumber,
     };
 
     addStudent(newStudent);
@@ -33,49 +59,51 @@ export default function AddStudentForm({ addStudent }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Add New Student</h2>
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-md mx-auto mt-10 bg-white shadow-lg rounded-xl p-6"
+    >
+      <h2 className="text-2xl font-bold mb-6 text-center">
+        Add New Student
+      </h2>
 
       <input
         type="text"
         placeholder="First Name"
         value={firstName}
         onChange={(event) => setFirstName(event.target.value)}
+        className="w-full border rounded p-3 mb-4"
       />
-
-      <br />
-      <br />
 
       <input
         type="text"
         placeholder="Last Name"
         value={lastName}
         onChange={(event) => setLastName(event.target.value)}
+        className="w-full border rounded p-3 mb-4"
       />
-
-      <br />
-      <br />
 
       <input
         type="date"
         value={dob}
         onChange={(event) => setDob(event.target.value)}
+        className="w-full border rounded p-3 mb-4"
       />
-
-      <br />
-      <br />
 
       <input
-        type="text"
-        placeholder="Grade"
+        type="number"
+        placeholder="Grade (1-12)"
         value={grade}
         onChange={(event) => setGrade(event.target.value)}
+        className="w-full border rounded p-3 mb-4"
       />
 
-      <br />
-      <br />
-
-      <button type="submit">Add Student</button>
+      <button
+        type="submit"
+        className="w-full bg-blue-700 text-white p-3 rounded-lg hover:bg-blue-800"
+      >
+        Add Student
+      </button>
     </form>
   );
 }
