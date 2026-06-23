@@ -1,30 +1,18 @@
-// import StudentCardComponent from "./components/StudentCard";
-
-
-// export default function Home() {
-//   return (
-//     <div className="">
-//       <main className="">
-//         <StudentCardComponent />
-//       </main>
-//     </div>
-//   );
-// }
 "use client";
 
 import { useState } from "react";
 
 import studentsData from "../_data/students.json";
-import StudentList from "../components/StudentList";
+import { StudentList, StudentType} from "../components/StudentList";
 import AddStudentForm from "../components/AddStudentForm";
 
 export default function Home() {
-
   const [students, setStudents] = useState(studentsData);
 
-  function addStudent(newStudent: any) {
+  function addStudent(newStudent: StudentType) {
     setStudents([...students, newStudent]);
   }
+
   return(
    <main>
       <div className="flex flex-wrap w-full h-28 bg-gray-100 items-center p-4 mb-5">

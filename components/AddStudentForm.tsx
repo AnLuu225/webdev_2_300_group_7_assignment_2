@@ -1,53 +1,50 @@
 "use client";
 
 import { useState } from "react";
-
-type Student = {
-  id: number;
-  firstName: string;
-  lastName: string;
-  dob: string;
-  grade: number;
-};
+import { StudentType } from "./StudentList";
 
 type AddStudentFormProps = {
-  addStudent: (student: Student) => void;
+  addStudent: (student: StudentType) => void;
 };
 
-export default function AddStudentForm({
-  addStudent,
-}: AddStudentFormProps) {
+export default function AddStudentForm({ addStudent }: AddStudentFormProps) {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [dob, setDob] = useState<string>("");
-  const [grade, setGrade] = useState<string>("");
+  const [grade, setGrade] = useState<number>(NaN);
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.SubmitEvent) {
     event.preventDefault();
 
     if (
       !firstName.trim() ||
       !lastName.trim() ||
-      !dob ||
-      !grade.trim()
+      !dob || 
+      !grade
     ) {
       alert("Please complete all fields.");
       return;
     }
 
-    const gradeNumber = Number(grade);
-
-    if (isNaN(gradeNumber) || gradeNumber < 1 || gradeNumber > 12) {
-      alert("Grade must be between 1 and 12.");
+    if (!(/^[A-Za-z]+$/.test(firstName.trim())) ||
+        !(/^[A-Za-z]+$/.test(firstName.trim()))) {
+      alert("Please ensure First Name and Last Name only have alphabetical characters.");
+      return;
+    } else if (!(dob.trim())) {
+      alert("Please ensure that the dob is chosen.");
+      return;
+    } else if ((isNaN(grade) || grade < 1 || grade > 12)) {
+      // If one ever gets here then they deserve it lowkey :sob:
+      alert("Please ensure that the grade is of 1-12.");
       return;
     }
 
-    const newStudent: Student = {
+    const newStudent: StudentType = {
       id: Date.now(),
       firstName,
       lastName,
       dob,
-      grade: gradeNumber,
+      grade: grade,
     };
 
     addStudent(newStudent);
@@ -55,7 +52,8 @@ export default function AddStudentForm({
     setFirstName("");
     setLastName("");
     setDob("");
-    setGrade("");
+    setGrade(NaN);
+
   }
 
   return (
@@ -94,7 +92,9 @@ export default function AddStudentForm({
         type="number"
         placeholder="Grade (1-12)"
         value={grade}
-        onChange={(event) => setGrade(event.target.value)}
+        onChange={(event) => {
+          setGrade(Number(event.target.value))
+        }}
         className="w-full border rounded p-3 mb-4"
       />
 

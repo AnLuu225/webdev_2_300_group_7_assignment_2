@@ -1,4 +1,6 @@
-export default function StudentCard({ student }: { student: any }) {
+import { StudentType } from "./StudentList";
+
+export default function StudentCard({ student }: { student: StudentType }) {
   return (
     <div className="w-80 h-45 bg-gray-100 rounded-2xl m-4">
       <h3 className="w-full h-15 bg-gray-200 rounded-t-2xl font-bold text-3xl flex items-center pl-4">
